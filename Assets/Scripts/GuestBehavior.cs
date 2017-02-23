@@ -22,6 +22,17 @@ public class GuestBehavior : MonoBehaviour {
 		destination = wps.Dequeue();
 
 		speed *= Random.Range(0.5f, 1.5f);
+
+		//randomize color
+		//TODO: make color and speed related
+		float rng = Random.Range(0f, 1f);
+		Material mat = GetComponent<Renderer>().material;
+
+		if 	 	(rng < 0.2f) mat.color = Color.black;
+		else if (rng < 0.4f) mat.color = Color.blue;
+		else if (rng < 0.6f) mat.color = Color.cyan;
+		else if (rng < 0.8f) mat.color = Color.green;
+		else 				 mat.color = Color.red;
 	}
 
 	// Update is called once per frame
@@ -33,7 +44,6 @@ public class GuestBehavior : MonoBehaviour {
 			}
 			else {
 				//out of destinations -- destroy this guest
-				//destination = new GuestWaypoint(transform.position);
 				Destroy(gameObject, 1f);
 			}
 		}
@@ -46,23 +56,23 @@ public class GuestBehavior : MonoBehaviour {
 		//show path if this guest is selected
 
 		if (Selection.Contains(gameObject)) {
-			
-			List<GuestWaypoint> wpsCopy; //copy into a list so we can access items freely
-			if (Application.isPlaying) { // if the game hasn't started, wps is null and cannot be used to init wpsCopy
-				wpsCopy = new List<GuestWaypoint>(wps); 
-			}
-			else { //so we can just use waypoints
-				wpsCopy = waypoints;
-			}
-
 			Gizmos.color = Color.cyan;
-
-			Gizmos.DrawLine(transform.position, destination.transform.position);
-			if (wpsCopy.Count > 0) {
-				Gizmos.DrawLine(destination.transform.position, wpsCopy[0].transform.position);
-
-				for(int i = 0; i < wpsCopy.Count - 1; i ++) {
-					Gizmos.DrawLine(wpsCopy[i].transform.position, wpsCopy[i + 1].transform.position);
+			if (Application.isPlaying) {
+				List<GuestWaypoint> wpsCopy = new List<GuestWaypoint>(wps); //so we can access items freely
+				Gizmos.DrawLine(transform.position, destination.transform.position);
+				if (wpsCopy.Count > 0) {
+					Gizmos.DrawLine(destination.transform.position, wpsCopy[0].transform.position);
+					for (int i = 0; i < wpsCopy.Count - 1; i ++) {
+						Gizmos.DrawLine(wpsCopy[i].transform.position, wpsCopy[i+1].transform.position);
+					}
+				}
+			}
+			else {
+				if (waypoints.Count > 0) {
+					Gizmos.DrawLine(transform.position, waypoints[0].transform.position);
+					for (int i = 0; i < waypoints.Count - 1; i ++) {
+						Gizmos.DrawLine(waypoints[i].transform.position, waypoints[i+1].transform.position);
+					}
 				}
 			}
 		}
