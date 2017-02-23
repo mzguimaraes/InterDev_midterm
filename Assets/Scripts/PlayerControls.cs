@@ -10,10 +10,46 @@ public class PlayerControls : MonoBehaviour {
 
 	Rigidbody rb;
 	Vector3 inputVector;
+	//private List<GameObject> shirtsCarried = new List<GameObject>();
+	private GameObject shirtCarried;
+
+	public void pickupShirt(GameObject shirt) {
+		Shirt inShirt = shirt.GetComponent<Shirt>();
+		if (inShirt == null) {
+			Debug.LogError("pickupShirt called on a non-shirt object");
+			return;
+		}
+		if (inShirt.isBeingCarried) {
+			return;
+		}
+		//shirtsCarried.Add(shirt);
+		shirtCarried = shirt;
+		shirtCarried.transform.position = transform.position - transform.forward;
+	}
+
+	public void returnShirt(Fixture fixture) {
+//		GameObject victim = null;
+//		foreach (GameObject shirt in shirtsCarried) {
+//			if (shirt.GetComponent<Shirt>().color == fixture.shirtHeld.color) {
+//				victim = shirt;
+//				break;
+//			}
+//		}
+		//if (victim != null) {
+		if (shirtCarried != null && shirtCarried.GetComponent<Shirt>().color == fixture.shirtHeld.color) {	
+//			shirtsCarried.Remove(victim);
+//			Destroy(victim, 0f);
+			Destroy (shirtCarried, 0f);
+			shirtCarried = null;
+
+			fixture.getShirt();
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
+
 	}
 
 	// Update is called once per frame
@@ -25,6 +61,13 @@ public class PlayerControls : MonoBehaviour {
 
 		//turning
 		transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed, 0f);
+
+//		//shirts follow
+//		for (int i = 0; i < shirtsCarried.Count; i ++) {
+//			shirtsCarried[i].transform.position = transform.position - (transform.forward * 0.5f * i);
+//		}
+		if (shirtCarried != null)
+			shirtCarried.transform.position = transform.position - (transform.forward);
 
 	}
 

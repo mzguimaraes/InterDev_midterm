@@ -48,20 +48,33 @@ public class GuestBehavior : MonoBehaviour {
 
 	public void takeShirt(Shirt inShirt) {
 		shirt = inShirt;
+		shirt.isBeingCarried = true;
 		if (inShirt != null)
 			shirt.transform.position = shirtSlot.transform.position;
 	}
 
 	public Shirt giveShirt() {
 		Shirt output = shirt;
+		shirt.isBeingCarried = false;
 		shirt = null;
 		return output;
 	}
 
-	void arriveAtWP(GuestWaypoint wp) {
+	private void dropShirt() {
+		shirt.isBeingCarried = false;
+		shirt = null;
+	}
+		
+
+	private void arriveAtWP(GuestWaypoint wp) {
 		if (wp.fixture != null) {
 			if (shirt == null) {
 				takeShirt(wp.fixture.giveShirt());
+			}
+		}
+		if (wp.dropWP) {
+			if (shirt != null) {
+				dropShirt();
 			}
 		}
 		destination = path.getNextDestination();

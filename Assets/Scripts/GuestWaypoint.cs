@@ -5,6 +5,7 @@ using UnityEngine;
 public class GuestWaypoint : MonoBehaviour {
 	//TODO: define pause length for when guest reaches wp
 	public Fixture fixture;
+	public bool dropWP = false; //will tell the guest to drop any shirt they have on the floor here
 
 	void OnDrawGizmos() {
 		Gizmos.color = Color.cyan;

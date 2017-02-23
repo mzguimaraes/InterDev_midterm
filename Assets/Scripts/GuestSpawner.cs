@@ -36,7 +36,12 @@ public class GuestSpawner : MonoBehaviour {
 			Instantiate(GuestPrefab, transform.position, Quaternion.identity);
 
 			spawnCountdown = spawnInterval() * Random.Range(0.8f, 1.2f);
-			Debug.Log(spawnCountdown);
+			//Debug.Log(spawnCountdown);
 		}
+	}
+
+	void OnDrawGizmos() {
+		Gizmos.color = Color.red;
+		Gizmos.DrawCube(transform.position, 2f * Vector3.one);
 	}
 }
