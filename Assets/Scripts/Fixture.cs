@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Fixture : MonoBehaviour {
-
-	public enum shirtColor {
-		Red,
-		Black,
-		Blue
-	}
-
-	public shirtColor color;
-	public int maxShirts = 3;
-	private int currShirts = maxShirts;
+	
+	public  int maxShirts = 3;
+	private int currShirts;
+	public Shirt shirtHeld;
 
 	// Use this for initialization
 	void Start () {
-		
+		currShirts = maxShirts;
 	}
-	
-	// Update is called once per frame
-	void Update () {
 		
+	public Shirt giveShirt() {
+		//TODO: make this less hacky
+		if (currShirts > 0) {
+			currShirts--;
+			return Instantiate(shirtHeld); 
+		}
+		else return null;
 	}
+
 }

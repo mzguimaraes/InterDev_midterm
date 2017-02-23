@@ -13,6 +13,12 @@ public class GuestBehavior : MonoBehaviour {
 
 	private float speed = 7f; //randomized in Start()
 
+	private Shirt shirt;
+	public Shirt redShirtPrefab;
+	public Shirt blackShirtPrefab;
+	public Shirt blueShirtPrefab;
+	public Transform shirtSlot; //where shirts appear visually--childed to Guest
+
 	void Start () {
 		wps = new Queue<GuestWaypoint>();
 		foreach (GuestWaypoint wp in waypoints) {
@@ -35,21 +41,56 @@ public class GuestBehavior : MonoBehaviour {
 		else 				 mat.color = Color.red;
 	}
 
+	public bool hasShirt() {
+		return shirt != null;
+	}
+
+	public void takeShirt(Shirt inShirt) {
+		shirt = inShirt;
+//		if (shirt.color == Shirt.shirtColor.Red) {
+//			Instantiate(redShirtPrefab,shirtSlot.position, Quaternion.identity);
+//		}
+//		else if (shirt.color == Shirt.shirtColor.Black) {
+//			Instantiate(blackShirtPrefab, shirtSlot.position, Quaternion.identity);
+//		}
+//		else {
+//			Instantiate(blueShirtPrefab, shirtSlot.position, Quaternion.identity);
+//		}
+		shirt.transform.position = shirtSlot.transform.position;
+	}
+
+	public Shirt giveShirt() {
+		Shirt output = shirt;
+		shirt = null;
+		return output;
+	}
+
+	void arriveAtWP(GuestWaypoint wp) {
+		if (wp.fixture != null) {
+			if (shirt == null) {
+				takeShirt(wp.fixture.giveShirt());
+			}
+		}
+		if (wps.Count > 0){
+			destination = wps.Dequeue();
+		}
+		else {
+			//out of destinations -- destroy this guest
+			Destroy(gameObject, 1f);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {		
 		//if arrived at wp, get next wp
 		if(Vector3.Distance(transform.position, destination.gameObject.transform.position) < wpRadius) {
-			if (wps.Count > 0){
-				destination = wps.Dequeue();
-			}
-			else {
-				//out of destinations -- destroy this guest
-				Destroy(gameObject, 1f);
-			}
+			arriveAtWP(destination);
 		}
 		//move to wp
 		transform.position += (destination.transform.position - transform.position).normalized * speed * Time.deltaTime;
 
+		if (shirt != null)
+			shirt.transform.position = shirtSlot.transform.position;
 	}
 
 	void OnDrawGizmos() {
