@@ -56,7 +56,8 @@ public class GuestBehavior : MonoBehaviour {
 //		else {
 //			Instantiate(blueShirtPrefab, shirtSlot.position, Quaternion.identity);
 //		}
-		shirt.transform.position = shirtSlot.transform.position;
+		if (inShirt != null)
+			shirt.transform.position = shirtSlot.transform.position;
 	}
 
 	public Shirt giveShirt() {
@@ -76,6 +77,7 @@ public class GuestBehavior : MonoBehaviour {
 		}
 		else {
 			//out of destinations -- destroy this guest
+			if (shirt != null) Destroy(shirt.gameObject, 1f);
 			Destroy(gameObject, 1f);
 		}
 	}
