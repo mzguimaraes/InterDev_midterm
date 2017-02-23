@@ -33,7 +33,7 @@ public class GuestSpawner : MonoBehaviour {
 	void Update () {
 		spawnCountdown -= Time.deltaTime;
 		if (spawnCountdown <= 0f) {
-			GameObject newGuest = Instantiate(GuestPrefab, transform.position, Quaternion.identity);
+			Instantiate(GuestPrefab, transform.position, Quaternion.identity);
 
 			spawnCountdown = spawnInterval() * Random.Range(0.8f, 1.2f);
 			Debug.Log(spawnCountdown);
