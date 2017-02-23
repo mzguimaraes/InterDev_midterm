@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEditor;
 
 public class GuestBehavior : MonoBehaviour {
-	public List<GuestWaypoint> waypoints;
-	private Queue<GuestWaypoint> wps;
+	private GuestPathManager manager;
+	private GuestPath path;
 
 	private GuestWaypoint destination;
 	public float wpRadius = 1f;
@@ -19,13 +19,14 @@ public class GuestBehavior : MonoBehaviour {
 	public Shirt blueShirtPrefab;
 	public Transform shirtSlot; //where shirts appear visually--childed to Guest
 
-	void Start () {
-		wps = new Queue<GuestWaypoint>();
-		foreach (GuestWaypoint wp in waypoints) {
-			wps.Enqueue(wp);
-		}
+	private bool isBeingDestroyed = false;
 
-		destination = wps.Dequeue();
+	void Start () {
+
+		manager = GameObject.FindGameObjectWithTag("PathManager").GetComponent<GuestPathManager>();
+		path = Instantiate(manager.getPath());
+
+		destination = path.getNextDestination();
 
 		speed *= Random.Range(0.5f, 1.5f);
 
@@ -47,15 +48,6 @@ public class GuestBehavior : MonoBehaviour {
 
 	public void takeShirt(Shirt inShirt) {
 		shirt = inShirt;
-//		if (shirt.color == Shirt.shirtColor.Red) {
-//			Instantiate(redShirtPrefab,shirtSlot.position, Quaternion.identity);
-//		}
-//		else if (shirt.color == Shirt.shirtColor.Black) {
-//			Instantiate(blackShirtPrefab, shirtSlot.position, Quaternion.identity);
-//		}
-//		else {
-//			Instantiate(blueShirtPrefab, shirtSlot.position, Quaternion.identity);
-//		}
 		if (inShirt != null)
 			shirt.transform.position = shirtSlot.transform.position;
 	}
@@ -72,24 +64,26 @@ public class GuestBehavior : MonoBehaviour {
 				takeShirt(wp.fixture.giveShirt());
 			}
 		}
-		if (wps.Count > 0){
-			destination = wps.Dequeue();
-		}
-		else {
-			//out of destinations -- destroy this guest
-			if (shirt != null) Destroy(shirt.gameObject, 1f);
+		destination = path.getNextDestination();
+		if (destination == null) {
+			isBeingDestroyed = true;
+			if (shirt != null) 
+				Destroy(shirt.gameObject, 1f);
 			Destroy(gameObject, 1f);
+			Destroy(path, 1f); //TODO: this doesn't actually destroy the path for some reason
 		}
 	}
 
 	// Update is called once per frame
-	void Update () {		
-		//if arrived at wp, get next wp
-		if(Vector3.Distance(transform.position, destination.gameObject.transform.position) < wpRadius) {
-			arriveAtWP(destination);
+	void Update () {	
+		if (!isBeingDestroyed) {	
+			//move to wp
+			transform.position += (destination.transform.position - transform.position).normalized * speed * Time.deltaTime;
+			//if arrived at wp, get next wp
+			if(Vector3.Distance(transform.position, destination.gameObject.transform.position) < wpRadius) {
+				arriveAtWP(destination);
+			}
 		}
-		//move to wp
-		transform.position += (destination.transform.position - transform.position).normalized * speed * Time.deltaTime;
 
 		if (shirt != null)
 			shirt.transform.position = shirtSlot.transform.position;
@@ -101,8 +95,9 @@ public class GuestBehavior : MonoBehaviour {
 		if (Selection.Contains(gameObject)) {
 			Gizmos.color = Color.cyan;
 			if (Application.isPlaying) {
-				List<GuestWaypoint> wpsCopy = new List<GuestWaypoint>(wps); //so we can access items freely
-				Gizmos.DrawLine(transform.position, destination.transform.position);
+				List<GuestWaypoint> wpsCopy = new List<GuestWaypoint>(path.getWPs()); //so we can access items freely
+				if (destination != null)
+					Gizmos.DrawLine(transform.position, destination.transform.position);
 				if (wpsCopy.Count > 0) {
 					Gizmos.DrawLine(destination.transform.position, wpsCopy[0].transform.position);
 					for (int i = 0; i < wpsCopy.Count - 1; i ++) {
@@ -110,14 +105,14 @@ public class GuestBehavior : MonoBehaviour {
 					}
 				}
 			}
-			else {
-				if (waypoints.Count > 0) {
-					Gizmos.DrawLine(transform.position, waypoints[0].transform.position);
-					for (int i = 0; i < waypoints.Count - 1; i ++) {
-						Gizmos.DrawLine(waypoints[i].transform.position, waypoints[i+1].transform.position);
-					}
-				}
-			}
+//			else {
+//				if (path.waypoints.Count > 0) {
+//					Gizmos.DrawLine(transform.position, path.waypoints[0].transform.position);
+//					for (int i = 0; i < path.waypoints.Count - 1; i ++) {
+//						Gizmos.DrawLine(path.waypoints[i].transform.position, path.waypoints[i+1].transform.position);
+//					}
+//				}
+//			}
 		}
 	}
 
