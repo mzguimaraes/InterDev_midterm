@@ -10,6 +10,7 @@ public class Fixture : MonoBehaviour {
 	public float pickupRadius = 3f;
 	private int currShirts;
 	public Shirt shirtHeld;
+	public TextMesh counter;
 
 	private PlayerControls player;
 
@@ -24,7 +25,7 @@ public class Fixture : MonoBehaviour {
 		//TODO: make this less hacky
 //		if (currShirts > 0) {
 			currShirts--;
-			Debug.Log(shirtHeld.color.ToString() + " Fixture currently has " + currShirts + " shirts left!");
+//			Debug.Log(shirtHeld.color.ToString() + " Fixture currently has " + currShirts + " shirts left!");
 			return Instantiate(shirtHeld); 
 		//when currShirts == -1, GameOver should end the game
 //		}
@@ -45,7 +46,8 @@ public class Fixture : MonoBehaviour {
 	}
 
 	void Update () {
-		//TODO: ensure this doesn't conflict with picking up a shirt
+		counter.text = currShirts.ToString();
+
 		if (player.getShirtCarriedColor() == shirtHeld.color 
 			&& Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
 
