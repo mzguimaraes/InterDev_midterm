@@ -22,21 +22,26 @@ public class Fixture : MonoBehaviour {
 		
 	public Shirt giveShirt() {
 		//TODO: make this less hacky
-		if (currShirts > 0) {
+//		if (currShirts > 0) {
 			currShirts--;
 			Debug.Log(shirtHeld.color.ToString() + " Fixture currently has " + currShirts + " shirts left!");
 			return Instantiate(shirtHeld); 
-		}
-		else {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-			return null;
-		}
+		//when currShirts == -1, GameOver should end the game
+//		}
+//		else {
+//			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+//			return null;
+//		}
 	}
 
 	public void getShirt() {
 		if (currShirts + 1 <= maxShirts) {
 			currShirts++;
 		}
+	}
+
+	public bool hasShirts() {
+		return currShirts >= 0;
 	}
 
 	void Update () {
