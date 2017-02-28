@@ -13,6 +13,11 @@ public class PlayerControls : MonoBehaviour {
 	//private List<GameObject> shirtsCarried = new List<GameObject>();
 	private GameObject shirtCarried;
 
+	public Shirt.shirtColor getShirtCarriedColor() {
+		if (shirtCarried == null) return Shirt.shirtColor.None;
+		else return shirtCarried.GetComponent<Shirt>().color;
+	}
+
 	public void pickupShirt(GameObject shirt) {
 		Shirt inShirt = shirt.GetComponent<Shirt>();
 		if (inShirt == null) {

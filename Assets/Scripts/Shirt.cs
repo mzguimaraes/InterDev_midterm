@@ -12,7 +12,8 @@ public class Shirt: MonoBehaviour{
 	public enum shirtColor {
 		Red,
 		Black,
-		Blue
+		Blue,
+		None //for when there is no shirt somewhere
 	}
 
 	public shirtColor color;

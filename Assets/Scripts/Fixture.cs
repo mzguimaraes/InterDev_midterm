@@ -11,11 +11,11 @@ public class Fixture : MonoBehaviour {
 	private int currShirts;
 	public Shirt shirtHeld;
 
-	private GameObject player;
+	private PlayerControls player;
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag("Player");
+		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
 
 		currShirts = maxShirts;
 	}
@@ -46,7 +46,9 @@ public class Fixture : MonoBehaviour {
 
 	void Update () {
 		//TODO: ensure this doesn't conflict with picking up a shirt
-		if (Input.GetKeyDown(KeyCode.Space) && Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
+		if (player.getShirtCarriedColor() == shirtHeld.color 
+			&& Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
+
 			player.GetComponent<PlayerControls>().returnShirt(this);
 		}
 	}
