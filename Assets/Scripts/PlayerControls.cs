@@ -8,9 +8,9 @@ public class PlayerControls : MonoBehaviour {
 	public float turnSpeed = 180f;
 	public float maxSpeed = 5f; // meters/sec
 
-	Rigidbody rb;
-	Vector3 inputVector;
-	//private List<GameObject> shirtsCarried = new List<GameObject>();
+	private Rigidbody rb;
+	private Vector3 inputVector;
+	private ScoreManager scorer;
 	private GameObject shirtCarried;
 
 	public Shirt.shirtColor getShirtCarriedColor() {
@@ -27,27 +27,16 @@ public class PlayerControls : MonoBehaviour {
 		if (inShirt.isBeingCarried || shirtCarried != null) {
 			return;
 		}
-		//shirtsCarried.Add(shirt);
 		shirtCarried = shirt;
 		shirtCarried.transform.position = transform.position - transform.forward;
 	}
 
 	public void returnShirt(Fixture fixture) {
-//		GameObject victim = null;
-//		foreach (GameObject shirt in shirtsCarried) {
-//			if (shirt.GetComponent<Shirt>().color == fixture.shirtHeld.color) {
-//				victim = shirt;
-//				break;
-//			}
-//		}
-		//if (victim != null) {
 		if (shirtCarried != null && shirtCarried.GetComponent<Shirt>().color == fixture.shirtHeld.color) {	
-//			shirtsCarried.Remove(victim);
-//			Destroy(victim, 0f);
 			Destroy (shirtCarried, 0f);
 			shirtCarried = null;
-
 			fixture.getShirt();
+			scorer.scoreShirtReturn();
 		}
 	}
 
@@ -59,6 +48,7 @@ public class PlayerControls : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 
+		scorer = FindObjectOfType<ScoreManager>();
 	}
 
 	// Update is called once per frame
@@ -71,10 +61,6 @@ public class PlayerControls : MonoBehaviour {
 		//turning
 		transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed, 0f);
 
-//		//shirts follow
-//		for (int i = 0; i < shirtsCarried.Count; i ++) {
-//			shirtsCarried[i].transform.position = transform.position - (transform.forward * 0.5f * i);
-//		}
 		if (shirtCarried != null)
 			shirtCarried.transform.position = transform.position - (transform.forward);
 
