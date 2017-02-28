@@ -19,7 +19,7 @@ public class PlayerControls : MonoBehaviour {
 			Debug.LogError("pickupShirt called on a non-shirt object");
 			return;
 		}
-		if (inShirt.isBeingCarried) {
+		if (inShirt.isBeingCarried || shirtCarried != null) {
 			return;
 		}
 		//shirtsCarried.Add(shirt);

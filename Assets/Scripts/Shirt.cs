@@ -27,7 +27,7 @@ public class Shirt: MonoBehaviour{
 
 	void Update () {
 		//TODO: put this in GuestBehavior
-		if (Vector3.Distance(transform.position, player.transform.position) < pickupRadius && Input.GetKeyDown(KeyCode.Space) ) {
+		if (Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
 			player.GetComponent<PlayerControls>().pickupShirt(gameObject);
 		}
 	}
