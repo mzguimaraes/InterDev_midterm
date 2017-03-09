@@ -1,9 +1,8 @@
 //Maya ASCII 2017 scene
 //Name: Tshirt.ma
-//Last modified: Wed, Mar 08, 2017 04:24:13 PM
+//Last modified: Thu, Mar 09, 2017 03:32:28 PM
 //Codeset: UTF-8
 requires maya "2017";
-requires "stereoCamera" "10.0";
 requires "stereoCamera" "10.0";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
@@ -15,8 +14,8 @@ fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "E8AEEF4B-984E-930B-40DD-DC9C7148C561";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -1.3358923231588571 0.72883394561629267 -11.907467294043645 ;
-	setAttr ".r" -type "double3" 8.0616472706157971 -170.99999999993017 0 ;
+	setAttr ".t" -type "double3" 0.30385498281159107 4.5093811683976401 -11.943547489282157 ;
+	setAttr ".r" -type "double3" -11.138352729369194 -179.39999999991784 0 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "2722A229-6644-5825-BBEB-F4AB2E44E295";
 	setAttr -k off ".v" no;
@@ -694,22 +693,22 @@ createNode mesh -n "pCubeShape2" -p "pCube2";
 	setAttr ".pd[0]" -type "dataPolyComponent" Index_Data UV 0 ;
 	setAttr ".hfd" -type "dataPolyComponent" Index_Data Face 0 ;
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "7E5B4DDE-B14C-DB6A-94B0-70924786CF47";
+	rename -uid "84AD2CB5-A14A-577F-A90B-26872FBBDC07";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "D6EC2DF3-9E4D-69FA-C56C-22979B8574AA";
+	rename -uid "61C3FA5A-A841-6EAA-408D-4994A87A00B7";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "BA9799DF-684E-2205-1B52-89B547133B94";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "153684BB-7946-86A1-1A5F-428D4945C06F";
+	rename -uid "F260D82B-1A43-9F3A-0AE1-7BB8154B2375";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "638C7D59-E74E-4626-22AC-37AA40C52790";
 	setAttr ".g" yes;
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "97D14900-5A49-912B-B0F5-41A97C9DB6B5";
+	rename -uid "1885010B-C946-D92B-B2AF-7389E9662F8A";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "962D061F-C741-99C5-4108-88ADE0CB9B21";
+	rename -uid "13D5729C-1746-B6F8-6896-69B04A9A55BD";
 createNode script -n "uiConfigurationScriptNode";
 	rename -uid "BCE089E7-A842-59CE-A910-8FAE0637AF98";
 	setAttr ".b" -type "string" (
@@ -819,8 +818,6 @@ select -ne :defaultResolution;
 select -ne :hardwareRenderGlobals;
 	setAttr ".ctrs" 256;
 	setAttr ".btrs" 512;
-select -ne :ikSystem;
-	setAttr -s 4 ".sol";
 relationship "link" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";
 relationship "link" ":lightLinker1" ":initialParticleSE.message" ":defaultLightSet.message";
 relationship "shadowLink" ":lightLinker1" ":initialShadingGroup.message" ":defaultLightSet.message";

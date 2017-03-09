@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour {
 
-	public float speed = 10f;
+	public float speed = 100f;
 	public float turnSpeed = 180f;
 	public float maxSpeed = 5f; // meters/sec
 
@@ -64,6 +64,7 @@ public class PlayerControls : MonoBehaviour {
 		float vert = Input.GetAxis("Vertical");
 
 		inputVector = new Vector3(horiz, 0f, vert);
+		inputVector = new Vector3(0f, 0f, vert);
 
 		//turning
 		transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed, 0f);
@@ -75,15 +76,14 @@ public class PlayerControls : MonoBehaviour {
 
 	void FixedUpdate() {
 
-		//make momentum go forward--feels more responsive
+		//make momentum go in the direction of forward--feels more responsive
 		rb.velocity = transform.forward * rb.velocity.magnitude;
 
-		if (rb.velocity.magnitude < maxSpeed){
+		if (rb.velocity.magnitude < maxSpeed) {
 			rb.AddRelativeForce(inputVector * speed);
 		}
 
-		//stop movement if no input
-		if (Vector3.Dot(inputVector, inputVector) < 0.5f) {
+		if (inputVector.magnitude < 0.5f) {
 			rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 		}
 
