@@ -20,7 +20,7 @@ public class GuestSpawner : MonoBehaviour {
 	//interval decreases as game goes on
 
 	float spawnInterval() {
-		return Mathf.Max(1f, -(Mathf.Pow(xScale * Time.realtimeSinceStartup, 3f)) + startInterval);
+		return Mathf.Max(1f, -(Mathf.Pow(xScale * Time.timeSinceLevelLoad, 3f)) + startInterval);
 	}
 
 	// Use this for initialization

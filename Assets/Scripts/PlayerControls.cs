@@ -8,6 +8,10 @@ public class PlayerControls : MonoBehaviour {
 	public float turnSpeed = 180f;
 	public float maxSpeed = 5f; // meters/sec
 
+	//for shirt carry position
+	public float shirt_vOffset;
+	public float shirt_hOffset;
+
 	private Rigidbody rb;
 	private Vector3 inputVector;
 	private ScoreManager scorer;
@@ -28,7 +32,10 @@ public class PlayerControls : MonoBehaviour {
 			return;
 		}
 		shirtCarried = shirt;
-		shirtCarried.transform.position = transform.position - transform.forward;
+		shirtCarried.transform.position = transform.position + shirt_hOffset * transform.forward 
+			- new Vector3(0f, shirt_vOffset, 0f);
+
+		shirtCarried.transform.SetParent(transform, true);
 	}
 
 	public void returnShirt(Fixture fixture) {
@@ -62,16 +69,20 @@ public class PlayerControls : MonoBehaviour {
 		transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed, 0f);
 
 		if (shirtCarried != null)
-			shirtCarried.transform.position = transform.position - (transform.forward);
-
+			shirtCarried.transform.position = transform.position + shirt_hOffset * transform.forward 
+												- new Vector3(0f, shirt_vOffset, 0f);
 	}
 
 	void FixedUpdate() {
+
+		//make momentum go forward--feels more responsive
+		rb.velocity = transform.forward * rb.velocity.magnitude;
 
 		if (rb.velocity.magnitude < maxSpeed){
 			rb.AddRelativeForce(inputVector * speed);
 		}
 
+		//stop movement if no input
 		if (Vector3.Dot(inputVector, inputVector) < 0.5f) {
 			rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 		}

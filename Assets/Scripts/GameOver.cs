@@ -9,21 +9,23 @@ public class GameOver : MonoBehaviour {
 
 	public GuestSpawner spawner;
 	public PlayerControls controller;
-	public Text gameOverText;
+	public Canvas gameOverCanvas;
 
 	private Fixture[] fixtures;
 
 	// Use this for initialization
 	void Start () {
 		fixtures = FindObjectsOfType<Fixture>();
-		gameOverText.gameObject.SetActive(false);
+		gameOverCanvas.gameObject.SetActive(false);
 	}
 
 	void EndGame() {
 		spawner.gameObject.SetActive(false);
-		controller.gameObject.SetActive(false);
+		controller.enabled = false;
+		controller.gameObject.GetComponentInChildren<CameraUpDown>().enabled = false;
+//		controller.gameObject.SetActive(false);
 
-		gameOverText.gameObject.SetActive(true);
+		gameOverCanvas.gameObject.SetActive(true);
 	}
 
 	bool isFixtureEmpty() {
