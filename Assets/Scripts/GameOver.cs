@@ -9,14 +9,16 @@ public class GameOver : MonoBehaviour {
 
 	public GuestSpawner spawner;
 	public PlayerControls controller;
-	public Canvas gameOverCanvas;
+	public Text gameOverText;
+	public Image gameOverBG;
 
 	private Fixture[] fixtures;
 
 	// Use this for initialization
 	void Start () {
 		fixtures = FindObjectsOfType<Fixture>();
-		gameOverCanvas.gameObject.SetActive(false);
+		gameOverText.gameObject.SetActive(false);
+		gameOverBG.gameObject.SetActive(false);
 	}
 
 	void EndGame() {
@@ -25,7 +27,8 @@ public class GameOver : MonoBehaviour {
 		controller.gameObject.GetComponentInChildren<CameraUpDown>().enabled = false;
 //		controller.gameObject.SetActive(false);
 
-		gameOverCanvas.gameObject.SetActive(true);
+		gameOverText.gameObject.SetActive(true);
+		gameOverBG.gameObject.SetActive(true);
 	}
 
 	bool isFixtureEmpty() {

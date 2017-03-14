@@ -29,17 +29,6 @@ public class GuestBehavior : MonoBehaviour {
 		destination = path.getNextDestination();
 
 		speed *= Random.Range(0.5f, 1.5f);
-
-		//randomize color
-		//TODO: make color and speed related
-		float rng = Random.Range(0f, 1f);
-		Material mat = GetComponent<Renderer>().material;
-
-		if 	 	(rng < 0.2f) mat.color = Color.black;
-		else if (rng < 0.4f) mat.color = Color.blue;
-		else if (rng < 0.6f) mat.color = Color.cyan;
-		else if (rng < 0.8f) mat.color = Color.green;
-		else 				 mat.color = Color.red;
 	}
 
 	public bool hasShirt() {
