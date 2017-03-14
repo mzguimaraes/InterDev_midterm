@@ -71,8 +71,9 @@ public class GuestBehavior : MonoBehaviour {
 			isBeingDestroyed = true;
 			if (shirt != null) 
 				Destroy(shirt.gameObject, 1f);
-			Destroy(gameObject, 1f);
+			path.gameObject.SetActive(false);
 			Destroy(path, 1f); //TODO: this doesn't actually destroy the path for some reason
+			Destroy(gameObject, 1f);
 		}
 	}
 
@@ -81,6 +82,7 @@ public class GuestBehavior : MonoBehaviour {
 		if (!isBeingDestroyed) {	
 			//move to wp
 			transform.position += (destination.transform.position - transform.position).normalized * speed * Time.deltaTime;
+			transform.forward = destination.transform.position - transform.position;
 			//if arrived at wp, get next wp
 			if(Vector3.Distance(transform.position, destination.gameObject.transform.position) < wpRadius) {
 				arriveAtWP(destination);

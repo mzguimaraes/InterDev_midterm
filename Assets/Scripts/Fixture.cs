@@ -48,7 +48,8 @@ public class Fixture : MonoBehaviour {
 	void Update () {
 		counter.text = currShirts.ToString();
 
-		if (player.getShirtCarriedColor() == shirtHeld.color 
+		if (player.getShirtCarriedColor() == shirtHeld.color
+			&& currShirts < maxShirts
 			&& Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
 
 			player.GetComponent<PlayerControls>().returnShirt(this);

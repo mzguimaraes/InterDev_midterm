@@ -10,14 +10,18 @@ public class GuestPathManager : MonoBehaviour{
 
 	private System.Random rng;
 
-	GuestPathManager() {
+	void Start() {
 		rng = new System.Random(DateTime.Now.Millisecond);
+		foreach (GuestPath path in paths) {
+			path.gameObject.SetActive(false);
+		}
 	}
 
 	public GuestPath getPath() {
 		//returns a random path from paths
 		int randIndex = rng.Next(0, paths.Count);
 		GuestPath chosen = paths[randIndex];
+		chosen.gameObject.SetActive(true);
 		return chosen;
 	}
 }
