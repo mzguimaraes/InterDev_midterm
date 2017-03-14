@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using UnityEditor;
+//TODO: figure out why WebGL doesn't like UnityEditor lib and fix
+//using UnityEditor;
 
 public class GuestBehavior : MonoBehaviour {
 	private GuestPathManager manager;
@@ -93,31 +94,31 @@ public class GuestBehavior : MonoBehaviour {
 			shirt.transform.position = shirtSlot.transform.position;
 	}
 
-	void OnDrawGizmos() {
-		//show path if this guest is selected
-
-		if (Selection.Contains(gameObject)) {
-			Gizmos.color = Color.cyan;
-			if (Application.isPlaying) {
-				List<GuestWaypoint> wpsCopy = new List<GuestWaypoint>(path.getWPs()); //so we can access items freely
-				if (destination != null)
-					Gizmos.DrawLine(transform.position, destination.transform.position);
-				if (wpsCopy.Count > 0) {
-					Gizmos.DrawLine(destination.transform.position, wpsCopy[0].transform.position);
-					for (int i = 0; i < wpsCopy.Count - 1; i ++) {
-						Gizmos.DrawLine(wpsCopy[i].transform.position, wpsCopy[i+1].transform.position);
-					}
-				}
-			}
-//			else {
-//				if (path.waypoints.Count > 0) {
-//					Gizmos.DrawLine(transform.position, path.waypoints[0].transform.position);
-//					for (int i = 0; i < path.waypoints.Count - 1; i ++) {
-//						Gizmos.DrawLine(path.waypoints[i].transform.position, path.waypoints[i+1].transform.position);
+//	void OnDrawGizmos() {
+//		//show path if this guest is selected
+//
+//		if (Selection.Contains(gameObject)) {
+//			Gizmos.color = Color.cyan;
+//			if (Application.isPlaying) {
+//				List<GuestWaypoint> wpsCopy = new List<GuestWaypoint>(path.getWPs()); //so we can access items freely
+//				if (destination != null)
+//					Gizmos.DrawLine(transform.position, destination.transform.position);
+//				if (wpsCopy.Count > 0) {
+//					Gizmos.DrawLine(destination.transform.position, wpsCopy[0].transform.position);
+//					for (int i = 0; i < wpsCopy.Count - 1; i ++) {
+//						Gizmos.DrawLine(wpsCopy[i].transform.position, wpsCopy[i+1].transform.position);
 //					}
 //				}
 //			}
-		}
-	}
+////			else {
+////				if (path.waypoints.Count > 0) {
+////					Gizmos.DrawLine(transform.position, path.waypoints[0].transform.position);
+////					for (int i = 0; i < path.waypoints.Count - 1; i ++) {
+////						Gizmos.DrawLine(path.waypoints[i].transform.position, path.waypoints[i+1].transform.position);
+////					}
+////				}
+////			}
+//		}
+//	}
 
 }

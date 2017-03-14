@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d7036d9131503408ba38b4d79e0a5182
+timeCreated: 1489461141
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Winter Solstice Expanded
+  fontNames:
+  - Winter Solstice Expanded
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

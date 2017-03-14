@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 9c79f40c9dc0b419a951fa48fd508022
+timeCreated: 1489461141
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Winter Solstice Italic
+  fontNames:
+  - Winter Solstice Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

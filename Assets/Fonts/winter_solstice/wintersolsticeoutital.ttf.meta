@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ff58e732357034040bb6c794bf21c797
+timeCreated: 1489461141
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Winter Solstice Outline Italic
+  fontNames:
+  - Winter Solstice Outline Italic
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

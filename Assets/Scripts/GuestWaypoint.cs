@@ -8,8 +8,14 @@ public class GuestWaypoint : MonoBehaviour {
 	public bool dropWP = false; //will tell the guest to drop any shirt they have on the floor here
 
 	void OnDrawGizmos() {
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawCube(gameObject.transform.position, 0.5f * Vector3.one);
+		if (dropWP) {
+			Gizmos.color = Color.red;
+			Gizmos.DrawCube(gameObject.transform.position, 0.75f * Vector3.one);
+		}
+		else {
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawCube(gameObject.transform.position, 0.5f * Vector3.one);
+		}
 
 		Gizmos.color = Color.red;
 		if (fixture != null)
