@@ -8,76 +8,31 @@ public class PlayerControls : MonoBehaviour {
 	public float turnSpeed = 180f;
 	public float maxSpeed = 5f; // meters/sec
 
-	//for shirt carry position
-	public float shirt_vOffset;
-	public float shirt_hOffset;
-
 	private Rigidbody rb;
 	private Vector3 inputVector;
-	private ScoreManager scorer;
-	private GameObject shirtCarried;
 
-	public Shirt.shirtColor getShirtCarriedColor() {
-		if (shirtCarried == null) return Shirt.shirtColor.None;
-		else return shirtCarried.GetComponent<Shirt>().color;
-	}
-
-	public void pickupShirt(GameObject shirt) {
-		Shirt inShirt = shirt.GetComponent<Shirt>();
-		if (inShirt == null) {
-			Debug.LogError("pickupShirt called on a non-shirt object");
-			return;
-		}
-		if (inShirt.isBeingCarried || shirtCarried != null) {
-			return;
-		}
-		shirtCarried = shirt;
-		shirtCarried.transform.position = transform.position + shirt_hOffset * transform.forward 
-			- new Vector3(0f, shirt_vOffset, 0f);
-
-		shirtCarried.transform.SetParent(transform, true);
-	}
-
-	public void returnShirt(Fixture fixture) {
-		if (shirtCarried != null && shirtCarried.GetComponent<Shirt>().color == fixture.shirtHeld.color) {	
-			Destroy (shirtCarried, 0f);
-			shirtCarried = null;
-			fixture.getShirt();
-			scorer.scoreShirtReturn();
-		}
-	}
-
-	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 
 		//disable cursor
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
-
-		scorer = FindObjectOfType<ScoreManager>();
 	}
 
-	// Update is called once per frame
 	void Update () {
 		float horiz = Input.GetAxis("Horizontal");
 		float vert = Input.GetAxis("Vertical");
 
 		inputVector = new Vector3(horiz, 0f, vert);
-		inputVector = new Vector3(0f, 0f, vert);
 
 		//turning
 		transform.Rotate(0f, Input.GetAxis("Mouse X") * Time.deltaTime * turnSpeed, 0f);
-
-		if (shirtCarried != null)
-			shirtCarried.transform.position = transform.position + shirt_hOffset * transform.forward 
-												- new Vector3(0f, shirt_vOffset, 0f);
 	}
 
 	void FixedUpdate() {
-
 		//make momentum go in the direction of forward--feels more responsive
-		rb.velocity = transform.forward * rb.velocity.magnitude;
+//		if (inputVector.z >= 0f) //this next line would prevent you from moving backwards otherwise
+//			rb.velocity = transform.forward * rb.velocity.magnitude;
 
 		if (rb.velocity.magnitude < maxSpeed) {
 			rb.AddRelativeForce(inputVector * speed);
@@ -86,7 +41,5 @@ public class PlayerControls : MonoBehaviour {
 		if (inputVector.magnitude < 0.5f) {
 			rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
 		}
-
 	}
-
 }

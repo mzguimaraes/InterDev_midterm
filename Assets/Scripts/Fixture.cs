@@ -12,27 +12,19 @@ public class Fixture : MonoBehaviour {
 	public Shirt shirtHeld;
 	public TextMesh counter;
 
-	private PlayerControls player;
+	private PlayerShirtInteraction player;
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
+		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerShirtInteraction>();
 
 		currShirts = maxShirts;
 	}
 		
 	public Shirt giveShirt() {
-		//TODO: make this less hacky
-//		if (currShirts > 0) {
 			currShirts--;
-//			Debug.Log(shirtHeld.color.ToString() + " Fixture currently has " + currShirts + " shirts left!");
 			return Instantiate(shirtHeld); 
-		//when currShirts == -1, GameOver should end the game
-//		}
-//		else {
-//			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-//			return null;
-//		}
+
 	}
 
 	public void getShirt() {
@@ -52,7 +44,7 @@ public class Fixture : MonoBehaviour {
 			&& currShirts < maxShirts
 			&& Vector3.Distance(transform.position, player.transform.position) < pickupRadius) {
 
-			player.GetComponent<PlayerControls>().returnShirt(this);
+			player.returnShirt(this);
 		}
 	}
 }
